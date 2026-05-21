@@ -6,7 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import org.springframework.data.jpa.repository.Modifying;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -23,4 +26,11 @@ public interface OrderRepo extends JpaRepository<OrderDO, Long> {
 
     @Query("SELECT COALESCE(SUM(o.price), 0) FROM OrderDO o WHERE o.merchantId = :merchantId AND o.status IN ('PAID', 'COMPLETED') AND FUNCTION('DATE', o.createdAt) = CURRENT_DATE")
     BigDecimal sumTodayRevenueByMerchantId(@Param("merchantId") Long merchantId);
+
+    @Query("SELECT o FROM OrderDO o WHERE o.status = :status AND o.createdAt < :expireTime")
+    List<OrderDO> findExpiredOrders(@Param("status") String status, @Param("expireTime") LocalDateTime expireTime);
+
+    @Modifying
+    @Query("UPDATE OrderDO o SET o.status = :newStatus WHERE o.id = :id AND o.status = :oldStatus")
+    int updateStatusByIdAndStatus(@Param("id") Long id, @Param("oldStatus") String oldStatus, @Param("newStatus") String newStatus);
 }

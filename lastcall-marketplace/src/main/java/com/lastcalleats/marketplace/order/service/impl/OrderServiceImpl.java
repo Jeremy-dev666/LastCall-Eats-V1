@@ -16,12 +16,15 @@ import com.lastcalleats.marketplace.product.entity.ProductTemplateDO;
 import com.lastcalleats.marketplace.product.repository.ProductListingRepo;
 import com.lastcalleats.marketplace.product.repository.ProductTemplateRepo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService, OrderStatsProvider {
@@ -111,6 +114,30 @@ public class OrderServiceImpl implements OrderService, OrderStatsProvider {
     @Override
     public BigDecimal getTodayRevenue(Long merchantId) {
         return orderRepo.sumTodayRevenueByMerchantId(merchantId);
+    }
+
+    @Override
+    @Transactional
+    public void closeExpiredOrders(int expireMinutes) {
+        LocalDateTime expireTime = LocalDateTime.now().minusMinutes(expireMinutes);
+        List<OrderDO> expiredOrders = orderRepo.findExpiredOrders(
+                OrderDO.OrderStatus.PENDING_PAYMENT.name(), expireTime);
+
+        for (OrderDO order : expiredOrders) {
+            int updated = orderRepo.updateStatusByIdAndStatus(
+                    order.getId(),
+                    OrderDO.OrderStatus.PENDING_PAYMENT.name(),
+                    OrderDO.OrderStatus.CANCELLED.name());
+
+            if (updated > 0) {
+                productListingRepo.findById(order.getListingId()).ifPresent(listing -> {
+                    listing.setRemainingQuantity(listing.getRemainingQuantity() + 1);
+                    listing.setIsAvailable(true);
+                    productListingRepo.save(listing);
+                });
+                log.info("Auto-closed expired order, orderId={}", order.getId());
+            }
+        }
     }
 
     private OrderResponse toResponse(OrderDO order) {

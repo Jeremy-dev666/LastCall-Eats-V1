@@ -14,4 +14,6 @@ public interface OrderService {
     OrderResponse getOrderDetail(Long userId, Long orderId);
 
     List<OrderResponse> getMerchantOrders(Long merchantId);
+
+    void closeExpiredOrders(int expireMinutes);
 }
