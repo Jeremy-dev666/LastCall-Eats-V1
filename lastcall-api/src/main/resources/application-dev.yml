@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/lastcall_eats?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: root
-    password: ${DB_PASSWORD:root123}
+    url: jdbc:postgresql://localhost:5432/lastcall_eats
+    username: postgres
+    password: ${DB_PASSWORD:postgres}
 
   jpa:
     show-sql: true

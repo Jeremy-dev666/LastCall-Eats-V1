@@ -1,0 +1,11 @@
+.git
+.idea
+.claude
+*.iml
+target/
+**/target/
+node_modules/
+uploads/
+.env
+.DS_Store
+documents/
