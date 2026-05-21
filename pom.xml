@@ -16,19 +16,15 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>LastCall Eats</name>
-    <description>LastCall Eats - Food Waste Reduction Platform</description>
+    <description>Food waste reduction platform — save food, save money</description>
 
     <modules>
         <module>lastcall-common</module>
-        <module>lastcall-auth</module>
-        <module>lastcall-user</module>
-        <module>lastcall-merchant</module>
-        <module>lastcall-product</module>
-        <module>lastcall-order</module>
-        <module>lastcall-payment</module>
-        <module>lastcall-review</module>
+        <module>lastcall-identity</module>
+        <module>lastcall-marketplace</module>
+        <module>lastcall-community</module>
+        <module>lastcall-intelligence</module>
         <module>lastcall-api</module>
-        <!-- lastcall-admin: 待扩展 -->
     </modules>
 
     <properties>
@@ -36,13 +32,13 @@
         <jjwt.version>0.12.6</jjwt.version>
         <minio.version>8.5.11</minio.version>
         <stripe.version>26.7.0</stripe.version>
-        <springdoc.version>2.3.0</springdoc.version>
+        <springdoc.version>2.5.0</springdoc.version>
         <lombok.version>1.18.32</lombok.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- 内部模块依赖版本注册 -->
+            <!-- Internal modules -->
             <dependency>
                 <groupId>com.lastcalleats</groupId>
                 <artifactId>lastcall-common</artifactId>
@@ -50,37 +46,22 @@
             </dependency>
             <dependency>
                 <groupId>com.lastcalleats</groupId>
-                <artifactId>lastcall-auth</artifactId>
+                <artifactId>lastcall-identity</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.lastcalleats</groupId>
-                <artifactId>lastcall-user</artifactId>
+                <artifactId>lastcall-marketplace</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.lastcalleats</groupId>
-                <artifactId>lastcall-merchant</artifactId>
+                <artifactId>lastcall-community</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.lastcalleats</groupId>
-                <artifactId>lastcall-product</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.lastcalleats</groupId>
-                <artifactId>lastcall-order</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.lastcalleats</groupId>
-                <artifactId>lastcall-payment</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.lastcalleats</groupId>
-                <artifactId>lastcall-review</artifactId>
+                <artifactId>lastcall-intelligence</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -115,28 +96,22 @@
                 <version>${stripe.version}</version>
             </dependency>
 
-            <!-- Springdoc OpenAPI (Swagger) -->
+            <!-- Springdoc OpenAPI -->
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                 <version>${springdoc.version}</version>
             </dependency>
-
-            <!-- Redis -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-redis</artifactId>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
-    <!-- 所有子模块共享的依赖 -->
+    <!-- Shared dependencies for ALL modules -->
     <dependencies>
         <dependency>
-          <groupId>org.projectlombok</groupId>
-          <artifactId>lombok</artifactId>
-          <version>${lombok.version}</version>
-          <optional>true</optional>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -152,13 +127,13 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                      <annotationProcessorPaths>
-                        <path>
-                          <groupId>org.projectlombok</groupId>
-                          <artifactId>lombok</artifactId>
-                          <version>${lombok.version}</version>
-                        </path>
-                      </annotationProcessorPaths>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
                     </configuration>
                 </plugin>
             </plugins>

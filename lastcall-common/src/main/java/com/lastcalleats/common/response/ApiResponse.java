@@ -3,12 +3,6 @@ package com.lastcalleats.common.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
-/**
- * Standard envelope for all REST responses. Null fields are omitted from JSON output,
- * so error responses do not include a {@code data} key.
- *
- * @param <T> the type of the response payload
- */
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {

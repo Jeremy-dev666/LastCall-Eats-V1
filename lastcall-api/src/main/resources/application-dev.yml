@@ -10,8 +10,8 @@ spring:
 app:
   jwt:
     secret: your-dev-jwt-secret-key-at-least-256-bits-long-please-change
-    expiration-ms: 86400000       # 24 小时
-    refresh-expiration-ms: 604800000  # 7 天
+    expiration-ms: 86400000
+    refresh-expiration-ms: 604800000
 
   minio:
     endpoint: http://localhost:9000
@@ -20,11 +20,11 @@ app:
     bucket-name: lastcall-eats
 
   stripe:
-    secret-key: ${STRIPE_SECRET_KEY}
-    webhook-secret: whsec_your_webhook_secret_here
+    secret-key: ${STRIPE_SECRET_KEY:sk_test_placeholder}
+    webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_placeholder}
 
   order:
     payment-timeout-minutes: 15
 
-  server:
-    address: 0.0.0.0
+server:
+  address: 0.0.0.0

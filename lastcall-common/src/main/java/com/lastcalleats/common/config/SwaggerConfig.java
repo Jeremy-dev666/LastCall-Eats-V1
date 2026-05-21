@@ -8,16 +8,9 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Configures SpringDoc OpenAPI for the LastCall Eats API.
- * Registers a Bearer JWT security scheme so the Swagger UI "Authorize" button works on protected endpoints.
- */
 @Configuration
 public class SwaggerConfig {
 
-    /**
-     * @return the OpenAPI descriptor with project metadata and global JWT security requirement
-     */
     @Bean
     public OpenAPI openAPI() {
         final String securitySchemeName = "bearerAuth";

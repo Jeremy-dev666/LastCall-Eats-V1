@@ -5,12 +5,6 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-/**
- * Paginated response wrapper returned by list endpoints. Converts Spring's {@link org.springframework.data.domain.Page}
- * to a plain object; page numbers are 1-based to match frontend conventions.
- *
- * @param <T> the type of items in the page
- */
 @Getter
 public class PageResult<T> {
 
