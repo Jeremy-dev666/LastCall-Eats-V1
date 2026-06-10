@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+
+app:
+  jwt:
+    secret: integration-test-jwt-secret-key-must-be-at-least-256-bits-long
+    expiration-ms: 86400000
+    refresh-expiration-ms: 604800000
+
+  stripe:
+    secret-key: sk_test_dummy
+    webhook-secret: whsec_test_secret
+
+  # client is constructed eagerly but never contacted in tests
+  minio:
+    endpoint: http://localhost:9000
+    access-key: test
+    secret-key: test
+    bucket-name: test
+
+  order:
+    payment-timeout-minutes: 15
+
+logging:
+  level:
+    com.lastcalleats: INFO
