@@ -1,3 +1,5 @@
+[![CI](https://github.com/Jeremy-dev666/LastCall-Eats-V1/actions/workflows/ci.yml/badge.svg)](https://github.com/Jeremy-dev666/LastCall-Eats-V1/actions/workflows/ci.yml)
+
 ## Collaborators
 
 Weisi Chen · Zhaoming Chen · Chanyuan Liu · Yun Xin · Xinhong Zheng

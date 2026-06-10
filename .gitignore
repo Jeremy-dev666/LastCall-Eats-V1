@@ -2,8 +2,6 @@
 target/
 *.class
 
-.github/
-
 # Environment
 .env
 
