@@ -61,8 +61,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         PaymentResponse response = strategy.pay(order, request.getPaymentMethodId());
 
-        PickupCodeDO pickupCode = pickupCodeFactory.generate("NUMERIC", order.getId());
-        pickupCodeRepo.save(pickupCode);
+        ensurePickupCodeExists(order.getId());
         orderRepo.save(order);
 
         return response;
@@ -80,8 +79,7 @@ public class PaymentServiceImpl implements PaymentService {
             case "payment_intent.succeeded" -> {
                 OrderState state = OrderState.fromStatus(order.getOrderStatus());
                 order.setStatus(state.pay());
-                PickupCodeDO pickupCode = pickupCodeFactory.generate("NUMERIC", order.getId());
-                pickupCodeRepo.save(pickupCode);
+                ensurePickupCodeExists(order.getId());
             }
             case "payment_intent.payment_failed" -> {
                 OrderState state = OrderState.fromStatus(order.getOrderStatus());
@@ -91,5 +89,16 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         orderRepo.save(order);
+    }
+
+    /**
+     * The order-creation flow already issues a pickup code; pickup_code.order_id
+     * is unique, so payment paths must not insert a second one.
+     */
+    private void ensurePickupCodeExists(Long orderId) {
+        if (pickupCodeRepo.findByOrderId(orderId).isEmpty()) {
+            PickupCodeDO pickupCode = pickupCodeFactory.generate("NUMERIC", orderId);
+            pickupCodeRepo.save(pickupCode);
+        }
     }
 }
