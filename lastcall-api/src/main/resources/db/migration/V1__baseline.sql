@@ -1,6 +1,6 @@
--- LastCall Eats Database Schema
--- PostgreSQL 16+
--- Run: createdb lastcall_eats
+-- LastCall Eats baseline schema (PostgreSQL 16+)
+-- Statements are idempotent so this migration is also safe against
+-- pre-Flyway databases created by the legacy sql/schema.sql.
 
 -- =====================
 -- User table

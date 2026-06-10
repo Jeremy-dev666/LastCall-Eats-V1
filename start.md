@@ -31,20 +31,7 @@ Right-click → **Run**. You'll know it's up when you see `Started LastCallEatsA
 
 ## 3. Initialize the Database
 
-**First-time setup requires creating tables and seeding test data.**
-
-### Using Navicat
-
-1. Connect to your local MySQL instance
-2. Open a new query, then run `sql/schema.sql`
-3. Open another new query, then run `sql/seed.sql`
-
-### Without Navicat (Terminal)
-
-```bash
-mysql -u root -p lastcall_eats < sql/schema.sql
-mysql -u root -p lastcall_eats < sql/seed.sql
-```
+**No manual steps required.** Start PostgreSQL with `docker compose up -d postgres`; on application startup, Flyway creates the schema automatically and the dev profile seeds test data when the database is empty (re-seed with `app.seed.force=true`).
 
 ### Test Accounts (password for all: `111111`)
 
@@ -114,20 +101,7 @@ spring:
 
 ## 3. 数据库初始化
 
-**首次使用需执行建表和注入测试数据。**
-
-### 有 Navicat
-
-1. 连接本地 MySQL
-2. 新建查询，打开并执行 `sql/schema.sql`
-3. 再新建查询，打开并执行 `sql/seed.sql`
-
-### 没有 Navicat（终端）
-
-```bash
-mysql -u root -p lastcall_eats < sql/schema.sql
-mysql -u root -p lastcall_eats < sql/seed.sql
-```
+**无需手动操作。** 先 `docker compose up -d postgres` 启动 PostgreSQL；应用启动时 Flyway 自动建表，dev 环境在库为空时自动注入测试数据（强制重灌：配置 `app.seed.force=true`）。
 
 ### 测试账号（密码统一：`111111`）
 

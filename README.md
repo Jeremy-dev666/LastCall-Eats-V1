@@ -25,25 +25,25 @@ A mobile marketplace that reduces food waste by connecting restaurants and baker
 
 ## Tech stack
 
-- **Backend:** Java 21, Spring Boot 3.2.5, Spring Data JPA, Spring Security + JWT (JJWT 0.12.6), Stripe Java SDK, MinIO, Lombok, Springdoc OpenAPI
+- **Backend:** Java 21, Spring Boot 3.2.5, Spring Data JPA, Flyway, Spring Security + JWT (JJWT 0.12.6), Stripe Java SDK, MinIO, Lombok, Springdoc OpenAPI
 - **Frontend:** React Native, Expo
-- **Database:** MySQL 8
+- **Database:** PostgreSQL 16
 - **Build:** Maven multi-module
 
 ## Getting started
 
 ### Prerequisites
-- Java 21, Maven, MySQL 8, Node.js 18+, IntelliJ IDEA (recommended)
+- Java 21, Maven, Docker, Node.js 18+, IntelliJ IDEA (recommended)
 
 ### Backend
-1. Create the database and load seed data:
+1. Start PostgreSQL:
    ```bash
-   mysql -u root -p < sql/schema.sql
-   mysql -u root -p lastcall_eats < sql/seed.sql
+   docker compose up -d postgres
    ```
-2. Open the project in IntelliJ. Update the DB password in `lastcall-api/src/main/resources/application-dev.yml` if needed.
-3. Run `lastcall-api/src/main/java/com/lastcalleats/LastCallEatsApplication.java`. The server starts on `http://localhost:8080`.
-4. API docs: `http://localhost:8080/swagger-ui.html`
+2. Run `lastcall-api/src/main/java/com/lastcalleats/LastCallEatsApplication.java`. On startup, Flyway applies migrations (`lastcall-api/src/main/resources/db/migration`) and the dev profile seeds demo data automatically when the database is empty.
+3. The server starts on `http://localhost:8080`; API docs: `http://localhost:8080/swagger-ui.html`
+
+Or run everything in Docker: `docker compose up --build`.
 
 ### Frontend
 ```bash
@@ -94,9 +94,6 @@ LastCall-Eats-V1/
 ├── ...
 ├── lastcall-frontend/
 │   └── lastcall-app/      # Expo React Native app
-├── sql/
-│   ├── schema.sql
-│   └── seed.sql
 ├── start.md               # Setup guide (Chinese)
 ├── test.md                # Functional test checklist
 └── pom.xml                # Parent POM
